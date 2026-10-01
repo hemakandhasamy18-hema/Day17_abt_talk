@@ -1,0 +1,207 @@
+# Day 17 - Backtracking & Search
+
+## 📌 Phase
+
+**Backtracking & Search**
+
+## 🎯 Problem Statement
+
+A magical treasure chest opens only with the correct combination of gems.
+
+Given a list of gems, the goal is to generate **all possible combinations (subsets)** that the player can carry.
+
+This problem demonstrates how **recursion and backtracking** can be used to explore every possible choice.
+
+---
+
+## 💡 Example
+
+### Input
+
+```text
+["Ruby", "Diamond", "Emerald"]
+```
+
+### Output
+
+```text
+["Ruby", "Diamond", "Emerald"]
+["Ruby", "Diamond"]
+["Ruby", "Emerald"]
+["Ruby"]
+["Diamond", "Emerald"]
+["Diamond"]
+["Emerald"]
+[]
+```
+
+### Total Combinations
+
+For `n` elements, the number of possible subsets is:
+
+```text
+2^n
+```
+
+For 3 gems:
+
+```text
+2^3 = 8
+```
+
+Therefore, there are **8 possible combinations**.
+
+---
+
+## 🔄 How Backtracking Works
+
+For every gem, the algorithm has two choices:
+
+1. **Include** the gem
+2. **Exclude** the gem
+
+The algorithm explores both choices recursively.
+
+The basic process is:
+
+```text
+Choose
+   ↓
+Explore
+   ↓
+Undo Choice
+   ↓
+Try Next Choice
+```
+
+The `pop()` operation is used to undo the previous choice before exploring the next possibility.
+
+---
+
+## 🌳 Recursion Tree
+
+```text
+                         []
+                    /          \
+                 Ruby           []
+                /    \        /    \
+          Ruby+Diamond  Ruby  Diamond  []
+             /    \      /      / \     / \
+          R+D+E   R+D   R+E    R   D+E  D  E  []
+```
+
+Each level represents a decision about whether to include a particular gem.
+
+---
+
+## 🧠 Algorithm
+
+1. Start with an empty subset.
+2. Select the current gem.
+3. Add the gem to the current subset.
+4. Recursively process the next gem.
+5. Remove the gem using backtracking.
+6. Recursively explore the option of excluding the gem.
+7. Continue until all gems have been processed.
+8. Store every completed subset.
+
+---
+
+## 💻 Implementation
+
+```python
+def generate_subsets(gems):
+    result = []
+    current = []
+
+    def backtrack(index):
+        if index == len(gems):
+            result.append(current.copy())
+            return
+
+        # Include the current gem
+        current.append(gems[index])
+        backtrack(index + 1)
+
+        # Undo the choice
+        current.pop()
+
+        # Exclude the current gem
+        backtrack(index + 1)
+
+    backtrack(0)
+
+    return result
+
+
+gems = ["Ruby", "Diamond", "Emerald"]
+
+subsets = generate_subsets(gems)
+
+for i, subset in enumerate(subsets, 1):
+    print(f"{i}. {subset}")
+
+print("Total Combinations:", len(subsets))
+```
+
+---
+
+## 📊 Complexity Analysis
+
+### Time Complexity
+
+```text
+O(2^n)
+```
+
+There are `2^n` possible subsets, so the algorithm needs to generate every possible combination.
+
+### Space Complexity
+
+```text
+O(n)
+```
+
+The recursion stack and temporary subset require `O(n)` space, excluding the memory required to store the final output.
+
+---
+
+## 🌍 Real-World Applications
+
+Backtracking is widely used in:
+
+* 📅 Scheduling systems
+* 🤖 AI decision trees
+* 🎯 Recommendation engines
+* 🧩 Puzzle solving
+* ♟️ Game decision systems
+* 📦 Resource allocation
+* 🔐 Combination and search problems
+
+---
+
+## 📚 Key Learning
+
+The main concept learned in Day 17 is:
+
+> **Backtracking explores a choice, reverses that choice, and then explores another possibility.**
+
+The pattern can be remembered as:
+
+```text
+Choose → Explore → Undo → Try Again
+```
+
+---
+
+## 🏆 Learning Outcome
+
+By completing this problem, I learned:
+
+* How recursion works with multiple choices
+* How to generate all subsets
+* How backtracking works
+* How to build a recursion tree
+* How to calculate `2^n` combinations
+* How backtracking can be applied to real-world AI and search problems
+
